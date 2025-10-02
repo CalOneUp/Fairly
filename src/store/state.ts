@@ -37,6 +37,10 @@ export type AppState = {
   }>;
   mockCrm: Array<{ email: string; ownerId: number; name: string }>;
   allocationLog: AllocationLogItem[];
+  mockCalendarEvents: Array<
+    | { memberId: number; title: string; allDay: true; date: Date; gcalStatus: 'busy' | 'free' }
+    | { memberId: number; title: string; start: Date; end: Date; gcalStatus: 'busy' | 'free' }
+  >;
 };
 
 const initialState: AppState = {
@@ -145,6 +149,36 @@ const initialState: AppState = {
       meetingTime: new Date('2025-10-02T15:00:00'),
     },
   ],
+  mockCalendarEvents: [
+    {
+      memberId: 102,
+      title: 'Out of Office',
+      allDay: true,
+      date: new Date('2025-10-02'),
+      gcalStatus: 'busy',
+    },
+    {
+      memberId: 101,
+      title: 'Internal Sync',
+      start: new Date('2025-10-02T11:00:00'),
+      end: new Date('2025-10-02T12:00:00'),
+      gcalStatus: 'busy',
+    },
+    {
+      memberId: 101,
+      title: 'Focus Time',
+      start: new Date('2025-10-02T14:00:00'),
+      end: new Date('2025-10-02T15:00:00'),
+      gcalStatus: 'free',
+    },
+    {
+      memberId: 201,
+      title: 'Dentist Appointment',
+      start: new Date('2025-10-02T14:00:00'),
+      end: new Date('2025-10-02T15:00:00'),
+      gcalStatus: 'busy',
+    },
+  ],
 };
 
 let state: AppState = initialState;
@@ -156,6 +190,27 @@ export function getState(): AppState {
 export function setState(next: AppState) {
   state = next;
   notify();
+}
+
+export function updateWorkingHours(memberId: number, which: 'start' | 'end', value: string) {
+  const next: AppState = {
+    ...state,
+    teams: state.teams.map((team) => ({
+      ...team,
+      members: team.members.map((m) =>
+        m.id === memberId ? { ...m, workingHours: { ...m.workingHours, [which]: value } } : m,
+      ),
+    })),
+  };
+  setState(next);
+}
+
+export function updateAllocationStatus(logId: number, status: string) {
+  const next: AppState = {
+    ...state,
+    allocationLog: state.allocationLog.map((l) => (l.id === logId ? { ...l, status } : l)),
+  };
+  setState(next);
 }
 
 const listeners = new Set<() => void>();

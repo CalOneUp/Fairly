@@ -1,4 +1,4 @@
-import { navigate } from '@/router';
+import { getCurrentRoute, navigate } from '@/router';
 
 export function mountApp(container: HTMLElement, renderView: () => HTMLElement) {
   container.innerHTML = '';
@@ -16,6 +16,9 @@ export function mountApp(container: HTMLElement, renderView: () => HTMLElement) 
 export function Sidebar(): HTMLElement {
   const el = document.createElement('div');
   el.className = 'w-64 glass-sidebar border-r border-slate-200/50 flex-shrink-0 flex flex-col';
+  const isAdmin = getCurrentRoute().name === 'admin';
+  const isRep = getCurrentRoute().name === 'rep';
+  const isSettings = getCurrentRoute().name === 'settings';
   el.innerHTML = `
     <div class="p-4 border-b border-slate-200/50">
       <div class="flex items-center gap-3">
@@ -24,13 +27,13 @@ export function Sidebar(): HTMLElement {
       </div>
     </div>
     <nav class="flex-1 p-4 space-y-2">
-      <a href="#admin" id="nav-admin" class="flex items-center gap-3 px-3 py-2 rounded-lg transition text-slate-600 hover:bg-slate-500/10">
+      <a href="#admin" id="nav-admin" class="flex items-center gap-3 px-3 py-2 rounded-lg transition ${isAdmin ? 'bg-violet-500/20 text-violet-700' : 'text-slate-600 hover:bg-slate-500/10'}">
         <span class="font-semibold">Admin Dashboard</span>
       </a>
-      <a href="#rep" id="nav-rep" class="flex items-center gap-3 px-3 py-2 rounded-lg transition text-slate-600 hover:bg-slate-500/10">
+      <a href="#rep" id="nav-rep" class="flex items-center gap-3 px-3 py-2 rounded-lg transition ${isRep ? 'bg-violet-500/20 text-violet-700' : 'text-slate-600 hover:bg-slate-500/10'}">
         <span class="font-semibold">My Dashboard</span>
       </a>
-      <a href="#settings" id="nav-settings" class="flex items-center gap-3 px-3 py-2 rounded-lg transition text-slate-600 hover:bg-slate-500/10">
+      <a href="#settings" id="nav-settings" class="flex items-center gap-3 px-3 py-2 rounded-lg transition ${isSettings ? 'bg-violet-500/20 text-violet-700' : 'text-slate-600 hover:bg-slate-500/10'}">
         <span class="font-semibold">Settings</span>
       </a>
     </nav>
