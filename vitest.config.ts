@@ -7,7 +7,7 @@ export default defineConfig({
     exclude: [
       'node_modules/**',
       'dist/**',
-      'e2e/**' // exclude Playwright specs from Vitest
+      'e2e/**', // exclude Playwright specs from Vitest
     ],
     setupFiles: [],
     coverage: {
