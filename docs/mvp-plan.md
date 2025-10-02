@@ -1,13 +1,16 @@
 # MVP Plan
 
 ## Goal
+
 Deliver a hosted MVP that routes inbound leads to the right reps and enables instant booking based on rep availability, with an admin dashboard for configuration and a rep dashboard for day-to-day visibility.
 
 ## Target users
+
 - Sales/SDR managers who configure routing rules and teams
 - Account executives/SDRs who receive allocations and manage availability
 
 ## Core MVP scope
+
 - Authentication and org onboarding
   - Email + password sign-in, invite-based org creation
   - Basic RBAC: Admin vs Rep
@@ -34,6 +37,7 @@ Deliver a hosted MVP that routes inbound leads to the right reps and enables ins
   - CRM webhook connector surface (post-booking payload to URL)
 
 ## Nice-to-have (post-MVP)
+
 - Multi-calendar support and buffer times
 - Round-robin visibility and load balancing controls
 - SLA windows and time-to-contact alerts
@@ -43,6 +47,7 @@ Deliver a hosted MVP that routes inbound leads to the right reps and enables ins
 - SSO (Google, Okta)
 
 ## Architecture (MVP)
+
 - Frontend: React + Tailwind (Vite), hosted on Vercel/Netlify
 - Backend: Node (Express/Fastify) or NestJS, hosted on Fly.io/Render
 - DB: Postgres (Supabase/RDS) + Prisma
@@ -51,6 +56,7 @@ Deliver a hosted MVP that routes inbound leads to the right reps and enables ins
 - Infra: Terraform-lite or IaC in repo, GitHub Actions for CI
 
 ## Data model (high-level)
+
 - Organization(id, name)
 - User(id, orgId, role, email, name, timezone)
 - Team(id, orgId, name)
@@ -61,6 +67,7 @@ Deliver a hosted MVP that routes inbound leads to the right reps and enables ins
 - OAuthToken(userId, provider, accessToken, refreshToken, expiresAt)
 
 ## Milestones and timeline (indicative)
+
 - M1 (Week 1-2): Project setup, auth, orgs, users, teams
 - M2 (Week 3-4): Google Calendar integration, availability engine, event types
 - M3 (Week 5): Routing rules v1 and weighted round-robin
@@ -69,6 +76,7 @@ Deliver a hosted MVP that routes inbound leads to the right reps and enables ins
 - M6 (Week 8): Hardening, telemetry, onboarding guide, MVP launch
 
 ## Risks and mitigations
+
 - Calendar complexity: start with primary calendar, Busy-only; add buffers later
 - Timezones and DST: use user-level timezone, rely on Luxon/date-fns-tz
 - OAuth quotas and errors: cache windows; graceful degradation and retries
@@ -76,12 +84,14 @@ Deliver a hosted MVP that routes inbound leads to the right reps and enables ins
 - Data privacy: least-privilege scopes; encrypt tokens; strict PII handling
 
 ## Success metrics
+
 - Time to first booking post-signup (< 15 minutes)
 - Conversion rate from booking page to scheduled (> 40%)
 - Lead assignment balance within ±20% across team members
 - Setup completion rate in first session (> 70%)
 
 ## Rollout plan
+
 - Private beta with 3-5 design partners
 - Weekly release cadence; collect feedback via in-app prompts
 - Documented onboarding checklist and loom walkthrough
